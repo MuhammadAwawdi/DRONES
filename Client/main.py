@@ -40,9 +40,9 @@ print('connected')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    drone = Tello()
-    drone.connect()
-    print(drone.get_battery())
+    #drone = Tello()
+    #drone.connect()
+    #print(drone.get_battery())
     try:
         # Send data
         message = 'TAKEOFF'
@@ -59,7 +59,7 @@ if __name__ == '__main__':
             amount_received += 1
             print(sys.stderr, 'received "%s"' % data)
             print(data.decode("utf-8"))
-            myFunc(data.decode("utf-8"))
+            #myFunc(data.decode("utf-8"))
 
     finally:
         print(sys.stderr, 'closing socket')
