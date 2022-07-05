@@ -14,7 +14,7 @@ server_address = (server_name, 4000)
 print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
 # Listen for incoming connections
-sock.listen(1)
+sock.listen(2)
 
 
 
@@ -165,116 +165,133 @@ class App:
     def connectClient(self):
         print(sys.stderr, 'waiting for a connection', threading.current_thread().name)
         self.connection, self.client_address = sock.accept()
-        # connection2, client_address2 = sock.accept()
+        self.connection2, self.client_address2 = sock.accept()
         print(threading.current_thread().name, "FINOS")
         try:
-            print(sys.stderr, 'connection from', client_address)
-            # print(sys.stderr, 'connection from', client_address2)
+            print(sys.stderr, 'connection from', self.client_address)
+            print(sys.stderr, 'connection from', self.client_address2)
 
             # Receive the data in small chunks and retransmit it
             while True:
                 data = True
+                key = keyboard.read_key()
                 # print(sys.stderr, 'received ' + data.decode())
-                if keyboard.is_pressed('w'):
+                if key == 'w':
                     print("w is pressed")
                     message = 'FORWARD'
                     self.connection.sendall(bytearray(message, 'utf-8'))
-                    # connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('a'):
+                if key == 'a':
                     print("a is pressed")
                     message = 'LEFT'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    # connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('d'):
+                if key == 'd':
                     print("d is pressed")
                     message = 'RIGHT'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    # connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('t'):
+                if key == 't':
                     message = 'TAKEOFF'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    # connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('b'):
+                if key == 'b':
                     message = 'LAND'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('s'):
+                if key == 's':
                     message = 'BACKWARD'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('q'):
+                if key == 'q':
                     message = 'UP'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('e'):
+                if key == 'e':
                     message = 'DOWN'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('c'):
+                if key == 'c':
                     message = 'CLOCKWISE'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('v'):
+                if key == 'v':
                     message = 'COUNTER_CLOCKWISE'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('o'):
+                if key == 'o':
                     message = 'END'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
-                if keyboard.is_pressed('f'):
+                if key == 'f':
                     message = 'FLIP'
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
                 sleep(0.5)
                 if data:
                     message = ''
-                    connection.sendall(bytearray(message, 'utf-8'))
-                    # connection2.sendall(bytearray(message, 'utf-8'))
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
 
                 else:
-                    print(sys.stderr, 'no more data from', client_address)
+                    print(sys.stderr, 'no more data from', self.client_address)
                     break
         finally:
             # Clean up the connection
-            connection.close()
+            self.connection.close()
+            self.connection2.close()
+
     def GButton_412_command(self):
-        self.drone.move_up(40)
+        message = 'UP'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_132_command(self):
-        self.drone.move_down(40)
+        message = 'DOWN'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_889_command(self):
-        self.drone.move_right(40)
+        message = 'RIGHT'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_387_command(self):
-        self.drone.move_left(40)
+        message = 'LEFT'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_473_command(self):
-        print("w is pressed")
         message = 'FORWARD'
         self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_437_command(self):
-        self.drone.move_back(40)
+        message = 'BACKWARD'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_356_command(self):
-        self.drone.rotate_clockwise(30)
+        message = 'CLOCKWISE'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_404_command(self):
-        self.drone.rotate_counter_clockwise(30)
+        message = 'COUNTER_CLOCKWISE'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def showStream(self):
         self.drone.streamon()
@@ -288,10 +305,16 @@ class App:
         streamTest.start()
 
     def GButton_760_command(self):
-        self.drone.end()
+        message = 'END'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_472_command(self):
-        self.drone.takeoff()
+        message = 'TAKEOFF'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_769_command(self):
-        self.drone.land()
+        message = 'LAND'
+        self.connection.sendall(bytearray(message, 'utf-8'))
+        self.connection2.sendall(bytearray(message, 'utf-8'))
