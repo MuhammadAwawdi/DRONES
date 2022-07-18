@@ -7,7 +7,6 @@ import time
 class PS4Controller(object):
     """Class representing the PS4 controller. Pretty straightforward functionality."""
     drone = Tello()
-    drone2 = Tello()
     controller = None
     axis_data = None
     button_data = None
@@ -16,7 +15,6 @@ class PS4Controller(object):
     def init(self):
         """Initialize the joystick components"""
         self.drone.connect()
-        self.drone2.connect()
         pygame.init()
         pygame.joystick.init()
         self.controller = pygame.joystick.Joystick(0)

@@ -1,7 +1,18 @@
 import socket
 import sys
+from threading import Thread
+
+import cv2.cv2
 from djitellopy import Tello
 from time import sleep
+
+
+def task():
+    drone.streamon()
+    while True:
+        img = drone.get_frame_read().frame
+        cv2.imshow("image", img)
+        cv2.waitKey(1)
 
 
 def myFunc(str):
@@ -21,10 +32,15 @@ def myFunc(str):
         drone.takeoff()  # takeoff command
     if str == "LAND":
         drone.land()  # land command
+    if str == "FLIP":
+        drone.flip_forward()
     if str == "CLOCKWISE":
         drone.send_rc_control(0, 0, 0, 60)  # self.drone.rotate_clockwise(60)
-    if str == "COUNTER_CLOCKWISE":
+    if str == "COUNTER_CLOCKWIS":
         drone.send_rc_control(0, 0, 0, -60)  # self.drone.rotate_counter_clockwise(60)
+    if str == "VIDEO":
+        t1 = Thread(target=task)
+        t1.start()
     sleep(0.5)
     drone.send_rc_control(0, 0, 0, 0)
 
@@ -40,9 +56,9 @@ print('connected')
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #drone = Tello()
-    #drone.connect()
-    #print(drone.get_battery())
+    drone = Tello()
+    drone.connect()
+    print(drone.get_battery())
     try:
         # Send data
         message = 'TAKEOFF'
@@ -59,7 +75,7 @@ if __name__ == '__main__':
             amount_received += 1
             print(sys.stderr, 'received "%s"' % data)
             print(data.decode("utf-8"))
-            #myFunc(data.decode("utf-8"))
+            myFunc(data.decode("utf-8"))
 
     finally:
         print(sys.stderr, 'closing socket')

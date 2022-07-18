@@ -194,6 +194,11 @@ class App:
                     self.connection.sendall(bytearray(message, 'utf-8'))
                     self.connection2.sendall(bytearray(message, 'utf-8'))
 
+                if key == 'l':
+                    message = 'VIDEO'
+                    self.connection.sendall(bytearray(message, 'utf-8'))
+                    self.connection2.sendall(bytearray(message, 'utf-8'))
+
                 if key == 't':
                     message = 'TAKEOFF'
                     self.connection.sendall(bytearray(message, 'utf-8'))
@@ -306,15 +311,18 @@ class App:
 
     def GButton_760_command(self):
         message = 'END'
+        print(message)
         self.connection.sendall(bytearray(message, 'utf-8'))
         self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_472_command(self):
         message = 'TAKEOFF'
+        print(message)
         self.connection.sendall(bytearray(message, 'utf-8'))
         self.connection2.sendall(bytearray(message, 'utf-8'))
 
     def GButton_769_command(self):
         message = 'LAND'
+        print(message)
         self.connection.sendall(bytearray(message, 'utf-8'))
         self.connection2.sendall(bytearray(message, 'utf-8'))
